@@ -1,0 +1,56 @@
+
+Base -> Child1 -> Child2 -> Child3
+                     |   -> Child4
+
+
+                     virtual table
+
+Child1 a(...);
+Child1 *b = new Child1(...);
+
+
+Base *ptr = factory(condition)
+
+
+Base* factory() {
+
+if (condition) {
+   return new Child1(...)
+}
+else return new Child2(...)
+} 
+
+
+vector <int> v{1, 2, 3};
+// cap 3, size 3
+
+v.push_back(1)
+v.push_back(2)
+v.push_back(3)
+
+// cap 4
+// size 3
+
+<typename T>
+class Vector {
+   T* arr;
+   size_t capacity;
+   size_t sz; // actual size of the vector
+
+   size_t size() {
+      return sz;
+   }
+
+   void push_back(const T& newElement) {
+      if (sz + 1 > capacity) {
+         // [1, 2, 3]
+         // 4
+         // [1, 2, 3, - - -]
+         // [1, 2, 3, 4.. ..]
+         // realloc(arr, 2*capacity) ///  pseuado code
+      }
+      arr[sz] = newElement;
+   }
+}
+
+

@@ -181,6 +181,7 @@ function App() {
       )}
       <button onClick={handleResetClick}>Reset</button>
       <hr />
+      {/* <input value={state} onChange={e => setState(e.target.value.toLowerCase())} */}
       <div>
         <div>Uncontrolled Toggle:</div>
         <Toggle
