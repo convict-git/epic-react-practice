@@ -2,7 +2,8 @@
 // http://localhost:3000/counter
 
 import * as React from 'react'
-import {render, screen, fireEvent} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Counter from '../../components/counter'
 
 test('counter increments and decrements when the buttons are clicked', () => {
@@ -14,9 +15,9 @@ test('counter increments and decrements when the buttons are clicked', () => {
   const messageDiv = screen.getByText(/current count/i)
   expect(messageDiv).toHaveTextContent('Current count: 0')
 
-  fireEvent.click(incrementButton)
+  userEvent.click(incrementButton)
   expect(messageDiv).toHaveTextContent('Current count: 1')
 
-  fireEvent.click(decrementButton)
+  userEvent.click(decrementButton)
   expect(messageDiv).toHaveTextContent('Current count: 0')
 })
