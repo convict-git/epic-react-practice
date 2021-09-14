@@ -53,5 +53,8 @@ test(`omitting the passsword results in an error`, async () => {
 
   screen.debug()
 
-  expect(screen.getByRole('alert')).toHaveTextContent(/password required/i)
+  // expect(screen.getByRole('alert')).toHaveTextContent(/password required/i)
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"password required"`,
+  )
 })
