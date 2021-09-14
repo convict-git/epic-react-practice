@@ -5,7 +5,6 @@ import * as React from 'react'
 import {render, screen, waitForElementToBeRemoved} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {build, fake} from '@jackfranklin/test-data-bot'
-import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 import Login from '../../components/login-submission'
 import {handlers} from 'test/server-handlers'
@@ -38,4 +37,21 @@ test(`logging in displays the user's username`, async () => {
   screen.debug()
 
   expect(screen.getByText(username)).toBeInTheDocument()
+})
+
+test(`omitting the passsword results in an error`, async () => {
+  render(<Login />)
+  const {username} = buildLoginForm()
+
+  userEvent.type(screen.getByLabelText(/username/i), username)
+
+  userEvent.click(screen.getByRole('button', {name: /submit/i}))
+
+  screen.debug()
+
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+
+  screen.debug()
+
+  expect(screen.getByRole('alert')).toHaveTextContent(/password required/i)
 })
