@@ -6,13 +6,14 @@ import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import faker from 'faker'
+import {build, fake} from '@jackfranklin/test-data-bot'
 import Login from '../../components/login'
-import {build} from '@jackfranklin/test-data-bot'
 
-const buildLoginForm = overrideFormData => ({
-  username: faker.internet.userName(),
-  password: faker.internet.password(),
-  ...overrideFormData,
+const buildLoginForm = build({
+  fields: {
+    username: fake(f => f.internet.userName()),
+    password: fake(f => f.internet.password()),
+  },
 })
 
 test('submitting the form calls onSubmit with username and password', () => {
@@ -27,14 +28,11 @@ test('submitting the form calls onSubmit with username and password', () => {
   userEvent.type(userNameTextBox, data.username)
   userEvent.type(passwordTextBox, data.password)
 
-  console.log(data)
-
   userEvent.click(screen.getByRole('button', {name: /submit/i}))
 
   expect(handleSubmit).toHaveBeenCalledWith(data)
   expect(handleSubmit).toHaveBeenCalledTimes(1) // called only once
 })
-
 /*
 eslint
   no-unused-vars: "off",
