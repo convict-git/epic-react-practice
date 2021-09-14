@@ -25,6 +25,7 @@ test('submitting the form calls onSubmit with username and password', () => {
   userEvent.click(screen.getByRole('button', {name: /submit/i}))
 
   expect(handleSubmit).toHaveBeenCalledWith(data)
+  expect(handleSubmit).toHaveBeenCalledTimes(1) // called only once
 })
 
 /*
