@@ -38,8 +38,10 @@ test('displays the users current location', async () => {
   screen.debug()
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
 
-  resolve()
-  await promise
+  await act(async () => {
+    resolve()
+    await promise
+  })
 
   expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
   expect(screen.getByText(/latitude/i)).toHaveTextContent(
