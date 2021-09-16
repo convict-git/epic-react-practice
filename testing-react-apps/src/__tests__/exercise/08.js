@@ -6,60 +6,52 @@ import {render} from '@testing-library/react'
 import useCounter from '../../components/use-counter'
 import {act} from 'react-dom/test-utils'
 
-test('exposes the count and increment/decrement functions', () => {
+const testCustomHook = (hook, {...initialProps} = {}) => {
   let returnedValueFromHook
-  const CounterExample = () => {
-    returnedValueFromHook = useCounter()
+  const TestComponent = () => {
+    returnedValueFromHook = hook({...initialProps})
     return null
   }
-  render(<CounterExample />)
+  render(<TestComponent />)
+  return returnedValueFromHook
+}
 
-  expect(returnedValueFromHook.count).toBe(0)
+test('exposes the count and increment/decrement functions', () => {
+  const values = testCustomHook(useCounter)
+  expect(values.count).toBe(0)
   act(() => {
-    returnedValueFromHook.increment()
+    values.increment()
   })
-  expect(returnedValueFromHook.count).toBe(1)
+  expect(values.count).toBe(1)
   act(() => {
-    returnedValueFromHook.decrement()
+    values.decrement()
   })
-  expect(returnedValueFromHook.count).toBe(0)
+  expect(values.count).toBe(0)
 })
 
 test('allows customisation of the initial count', () => {
-  let returnedValueFromHook
-  const CounterExample = () => {
-    returnedValueFromHook = useCounter({initialCount: 5})
-    return null
-  }
-  render(<CounterExample />)
-
-  expect(returnedValueFromHook.count).toBe(5)
+  const values = testCustomHook(useCounter, {initialCount: 5})
+  expect(values.count).toBe(5)
   act(() => {
-    returnedValueFromHook.increment()
+    values.increment()
   })
-  expect(returnedValueFromHook.count).toBe(6)
+  expect(values.count).toBe(6)
   act(() => {
-    returnedValueFromHook.decrement()
+    values.decrement()
   })
-  expect(returnedValueFromHook.count).toBe(5)
+  expect(values.count).toBe(5)
 })
 
 test('allows the customisation of the step', () => {
-  let returnedValueFromHook
-  const CounterExample = () => {
-    returnedValueFromHook = useCounter({step: 3})
-    return null
-  }
-  render(<CounterExample />)
-
-  expect(returnedValueFromHook.count).toBe(0)
+  const values = testCustomHook(useCounter, {initialCount: 5, step: 3})
+  expect(values.count).toBe(5)
   act(() => {
-    returnedValueFromHook.increment()
+    values.increment()
   })
-  expect(returnedValueFromHook.count).toBe(3)
+  expect(values.count).toBe(8)
   act(() => {
-    returnedValueFromHook.decrement()
+    values.decrement()
   })
-  expect(returnedValueFromHook.count).toBe(0)
+  expect(values.count).toBe(5)
 })
 /* eslint no-unused-vars:0 */
